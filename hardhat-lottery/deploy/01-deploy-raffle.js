@@ -55,10 +55,11 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     from: deployer,
     args: args,
     log: true,
-    waitConfirmation: network.config.blockConfirmations || 1,
+    waitConfirmation:
+      network.config.blockConfirmations || VERIFICATION_BLOCK_CONFIRMATIONS,
   });
 
-  // We need to add an consumer https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/1565 
+  // We need to add an consumer https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/1565
   // solves invalidConsumer() error
   if (developmentChains.includes(network.name)) {
     await VRFCoordinatorV2Mock.addConsumer(subscriptionId, raffle.address);
