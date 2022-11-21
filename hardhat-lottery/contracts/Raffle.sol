@@ -5,7 +5,7 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/interfaces/AutomationCompatibleInterface.sol";
 
-error Raffle_NotEnoughETHEntered();
+error Raffle__NotEnoughETHEntered();
 error Raffle__TransferFailed();
 error Raffle__RaffleNotOpen();
 error Raffle__UpkeepNotNeeded(
@@ -68,7 +68,7 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
 
     function enterRaffle() public payable {
         if (msg.value < i_entranceFee) {
-            revert Raffle_NotEnoughETHEntered();
+            revert Raffle__NotEnoughETHEntered();
         }
         if (s_raffleState != RaffleState.OPEN) {
             revert Raffle__RaffleNotOpen();
@@ -195,5 +195,9 @@ contract Raffle is VRFConsumerBaseV2, AutomationCompatibleInterface {
 
     function getRequestConfirmations() public pure returns (uint256) {
         return REQUEST_CONFIRMATIONS;
+    }
+
+    function getInterval() public view returns (uint256) {
+        return i_interval;
     }
 }

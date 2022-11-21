@@ -12,14 +12,12 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
   const chainId = network.config.chainId;
-  let VRFCoordinatorV2Address, subscriptionId;
+  let VRFCoordinatorV2Address, subscriptionId, VRFCoordinatorV2Mock;
 
   // if our development chains include our current network name (hardhat/localhost)
   // then we get our Mock contract which we deployed in the 00-deploy-mocks script
   if (developmentChains.includes(network.name)) {
-    const VRFCoordinatorV2Mock = await ethers.getContract(
-      "VRFCoordinatorV2Mock"
-    );
+    VRFCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock");
     VRFCoordinatorV2Address = VRFCoordinatorV2Mock.address;
     // Fund the subscription on a test net programmatically
     const transactionResponse = await VRFCoordinatorV2Mock.createSubscription();
@@ -52,8 +50,6 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     interval,
   ];
 
-  console.log(args);
-
   // deploy the raffle contract with all the required arguments
   const raffle = await deploy("Raffle", {
     from: deployer,
@@ -61,6 +57,14 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     waitConfirmation: network.config.blockConfirmations || 1,
   });
+
+  // We need to add an consumer https://github.com/smartcontractkit/full-blockchain-solidity-course-js/discussions/1565 
+  // solves invalidConsumer() error
+  if (developmentChains.includes(network.name)) {
+    await VRFCoordinatorV2Mock.addConsumer(subscriptionId, raffle.address);
+
+    log("Consumer is added");
+  }
 
   if (
     !developmentChains.includes(network.name) &&
