@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@web3uikit/core": "^0.2.16",
+    "@web3uikit/icons": "^0.2.18",
+    "@web3uikit/web3": "^0.2.2",
     "eslint": "8.28.0",
     "eslint-config-next": "13.0.4",
     "moralis-v1": "^1.12.0",
