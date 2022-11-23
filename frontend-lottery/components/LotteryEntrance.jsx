@@ -38,7 +38,11 @@ const LotteryEntrance = () => {
     params: {},
   });
 
-  const { runContractFunction: enterRaffle } = useWeb3Contract({
+  const {
+    runContractFunction: enterRaffle,
+    isLoading,
+    isFetching,
+  } = useWeb3Contract({
     abi: abi,
     contractAddress: raffleAddress,
     functionName: "enterRaffle",
@@ -85,10 +89,10 @@ const LotteryEntrance = () => {
 
   return (
     <div>
-      <h1>LotteryEntrance</h1>
       {raffleAddress ? (
         <>
           <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             onClick={async function () {
               await enterRaffle({
                 onComplete: () => console.log(`completed tx`),
@@ -96,8 +100,13 @@ const LotteryEntrance = () => {
                 onError: (error) => console.log(error),
               });
             }}
+            disabled={isLoading || isFetching}
           >
-            Enter Raffle
+            {isLoading || isFetching ? (
+              <div className="animate-spin spinner-border h-8 w-8 border-b-2 rounded-full"></div>
+            ) : (
+              "Enter Raffle"
+            )}
           </button>
           <p>
             The entrance fee is:
