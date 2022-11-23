@@ -15,7 +15,6 @@ export default function Home() {
       </Head>
       <Header />
       <LotteryEntrance />
-      <p>Welcome to our Lottery</p>
     </div>
   );
 }

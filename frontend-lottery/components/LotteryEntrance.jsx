@@ -88,7 +88,7 @@ const LotteryEntrance = () => {
   };
 
   return (
-    <div>
+    <div className="p-5">
       {raffleAddress ? (
         <>
           <button
