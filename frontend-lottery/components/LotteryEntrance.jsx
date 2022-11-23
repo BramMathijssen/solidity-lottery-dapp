@@ -101,7 +101,6 @@ const LotteryEntrance = () => {
           <p>
             The entrance fee is:{" "}
             {ethers.utils.formatUnits(entranceFee, "ether")} ETH
-            
           </p>
           <p>Number of players: {numPlayers}</p>
           <p>Recent Winner: {recentWinner}</p>
@@ -109,6 +108,7 @@ const LotteryEntrance = () => {
       ) : (
         <div>Not connected to a supported chain</div>
       )}
+      <p>Contract deployed at {raffleAddress}</p>
     </div>
   );
 };
