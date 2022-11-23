@@ -73,9 +73,10 @@ const LotteryEntrance = () => {
   };
 
   const handleSuccess = async (tx) => {
+    console.log(tx);
     try {
       await tx.wait(1);
-      updateUIValues();
+      updateUI();
       handleNewNotification(tx);
     } catch (error) {
       console.log(error);
@@ -90,7 +91,7 @@ const LotteryEntrance = () => {
           <button
             onClick={async function () {
               await enterRaffle({
-                // onComplete:
+                onComplete: () => console.log(`completed tx`),
                 onSuccess: handleSuccess,
                 onError: (error) => console.log(error),
               });
@@ -99,7 +100,7 @@ const LotteryEntrance = () => {
             Enter Raffle
           </button>
           <p>
-            The entrance fee is:{" "}
+            The entrance fee is:
             {ethers.utils.formatUnits(entranceFee, "ether")} ETH
           </p>
           <p>Number of players: {numPlayers}</p>
