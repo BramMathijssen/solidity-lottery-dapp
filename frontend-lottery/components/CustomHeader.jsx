@@ -11,8 +11,7 @@ const CustomHeader = () => {
     isWeb3EnableLoading,
   } = useMoralis();
 
-  // Als isWeb3Enabled true is wordt deze useEffect uitgevoerd,
-  // waarmee we enableWeb3() aanroepen
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (window.localStorage.getItem("connected")) {
@@ -21,7 +20,6 @@ const CustomHeader = () => {
     }
   }, [isWeb3Enabled]);
 
-  // We checken of we van account veranderd zijn.
   useEffect(() => {
     Moralis.onAccountChanged((account) => {
       console.log(`Account changed`);
